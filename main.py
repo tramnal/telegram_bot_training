@@ -1,29 +1,35 @@
-import requests
-import time
+from aiogram import Bot, Dispatcher
+from aiogram.filters import Command
+from aiogram.types import Message
 from dotenv import dotenv_values
 
-API_URL = 'https://api.telegram.org/bot'
 BOT_TOKEN = dotenv_values('.env')['TOKEN']
 
-offset = -2
-timeout = 60
-updates: dict
+# Creating Bot and Dispatcher objects
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
 
 
-def do_something() -> None:
-    print('Был апдейт')
+# This handler will trigger command "/start"
+@dp.message(Command(commands=['start']))
+async def process_start_command(message: Message):
+    await message.answer('Привет!\nМеня зовут Эхо-бот!\nНапиши мне что-нибудь')
 
 
-while True:
-    start_time = time.time()
-    updates = requests.get(f'{API_URL}{BOT_TOKEN}/getUpdates?offset={offset + 1}&timeout={timeout}').json()
+# This handler will trigger command '/help'
+@dp.message(Command(commands=['help']))
+async def process_help_command(message: Message):
+    await message.answer(
+        'Напиши мне что-нибудь, и в ответ '
+        'я пришлю тебе твое сообщение'
+    )
 
-    print(updates)
 
-    if updates['result']:
-        for result in updates['result']:
-            offset = result['update_id']
-            do_something()
+# This handler will trigger any messages, except for the "/start" and "/help" commands
+@dp.message()
+async def send_echo(message: Message):
+    await message.reply(text=message.text)
 
-    end_time = time.time()
-    print(f'Время между запросами к Telegram Bot API: {end_time - start_time}')
+
+if __name__ == '__main__':
+    dp.run_polling(bot)

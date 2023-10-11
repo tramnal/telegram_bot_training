@@ -11,13 +11,11 @@ dp = Dispatcher()
 
 
 # This handler will trigger command "/start"
-@dp.message(Command(commands=['start']))
 async def process_start_command(message: Message):
     await message.answer('Привет!\nМеня зовут Эхо-бот!\nНапиши мне что-нибудь')
 
 
 # This handler will trigger command '/help'
-@dp.message(Command(commands=['help']))
 async def process_help_command(message: Message):
     await message.answer(
         'Напиши мне что-нибудь, и в ответ '
@@ -26,10 +24,14 @@ async def process_help_command(message: Message):
 
 
 # This handler will trigger any messages, except for the "/start" and "/help" commands
-@dp.message()
 async def send_echo(message: Message):
     await message.reply(text=message.text)
 
+
+# Registering handlers
+dp.message.register(process_start_command, Command(commands='start'))
+dp.message.register(process_help_command, Command(commands='help'))
+dp.message.register(send_echo)
 
 if __name__ == '__main__':
     dp.run_polling(bot)

@@ -1,4 +1,4 @@
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from aiogram.types import Message
 from dotenv import dotenv_values
@@ -23,7 +23,12 @@ async def process_help_command(message: Message):
     )
 
 
-# This handler will trigger any messages, except for the "/start" and "/help" commands
+# This handler will trigger when sending a photo to the bot
+async def send_photo_echo(message: Message):
+    await message.reply_photo(message.photo[0].file_id)
+
+
+# This handler will trigger any text messages, except for the "/start" and "/help" commands
 async def send_echo(message: Message):
     await message.reply(text=message.text)
 
@@ -31,6 +36,7 @@ async def send_echo(message: Message):
 # Registering handlers
 dp.message.register(process_start_command, Command(commands='start'))
 dp.message.register(process_help_command, Command(commands='help'))
+dp.message.register(send_photo_echo, F.photo)
 dp.message.register(send_echo)
 
 if __name__ == '__main__':

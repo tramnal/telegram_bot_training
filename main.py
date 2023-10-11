@@ -1,8 +1,9 @@
 import requests
 import time
+from dotenv import dotenv_values
 
 API_URL = 'https://api.telegram.org/bot'
-BOT_TOKEN = '6277525733:AAFJFbr4CpmCDNvYrm2sMamNjnAOI_gkDqg'
+BOT_TOKEN = dotenv_values('.env')['TOKEN']
 
 offset = -2
 timeout = 60

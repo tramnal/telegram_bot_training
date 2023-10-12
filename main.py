@@ -44,6 +44,7 @@ async def send_animation_echo(message: Message):
 
 
 # This handler will trigger when sending voice messages to the bot
+@dp.message(F.voice)
 async def send_voice_echo(message: Message):
     await message.reply_voice(message.voice.file_id)
 

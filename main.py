@@ -49,6 +49,24 @@ async def send_voice_echo(message: Message):
     await message.reply_voice(message.voice.file_id)
 
 
+# This handler will trigger when sending videos to the bot
+@dp.message(F.video)
+async def send_video_echo(message: Message):
+    await message.reply_video(message.video.file_id)
+
+
+# This handler will trigger when sending audios to the bot
+@dp.message(F.audio)
+async def send_audio_echo(message: Message):
+    await message.reply_audio(message.audio.file_id)
+
+
+# This handler will trigger when sending documents to the bot
+@dp.message(F.document)
+async def send_document_echo(message: Message):
+    await message.reply_document(message.document.file_id)
+
+
 # This handler will trigger any text messages, except for the "/start" and "/help" commands
 @dp.message()
 async def send_echo(message: Message):

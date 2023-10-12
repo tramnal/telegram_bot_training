@@ -37,6 +37,12 @@ async def send_sticker_echo(message: Message):
     await message.reply_sticker(message.sticker.file_id)
 
 
+# This handler will trigger when sending an animation to the bot
+@dp.message(F.animation)
+async def send_animation_echo(message: Message):
+    await message.reply_animation(message.animation.file_id)
+
+
 # This handler will trigger any text messages, except for the "/start" and "/help" commands
 @dp.message()
 async def send_echo(message: Message):

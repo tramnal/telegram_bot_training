@@ -43,6 +43,11 @@ async def send_animation_echo(message: Message):
     await message.reply_animation(message.animation.file_id)
 
 
+# This handler will trigger when sending voice messages to the bot
+async def send_voice_echo(message: Message):
+    await message.reply_voice(message.voice.file_id)
+
+
 # This handler will trigger any text messages, except for the "/start" and "/help" commands
 @dp.message()
 async def send_echo(message: Message):

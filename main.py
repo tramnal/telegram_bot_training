@@ -67,6 +67,12 @@ async def send_document_echo(message: Message):
     await message.reply_document(message.document.file_id)
 
 
+# This handler will trigger when sending location to the bot
+@dp.message(F.location)
+async def send_location_echo(message: Message):
+    await message.reply_location(message.location.latitude, message.location.longitude)
+
+
 # This handler will trigger any text messages, except for the "/start" and "/help" commands
 @dp.message()
 async def send_echo(message: Message):
